@@ -36,8 +36,10 @@ import com.FCI.SWE.Models.User;
 import com.FCI.SWE.ServicesModels.MesNotification;
 import com.FCI.SWE.ServicesModels.MessageEntity;
 import com.FCI.SWE.ServicesModels.Notification;
+import com.FCI.SWE.ServicesModels.Post;
 import com.FCI.SWE.ServicesModels.ReqNotification;
 import com.FCI.SWE.ServicesModels.UserEntity;
+import com.FCI.SWE.ServicesModels.UserTimeLine;
 
 import org.json.simple.JSONArray;
 
@@ -259,9 +261,9 @@ public class UserServices {
 			@FormParam("Name") String name, @FormParam("Msg") String msg,
 			@FormParam("Time") Date time) {
 
-		 String [] rec = reciver.trim().split(" ");
-		 ArrayList<String> reciverr = new ArrayList<>();
-		 for (String string : reciverr) {
+		String[] rec = reciver.trim().split(" ");
+		ArrayList<String> reciverr = new ArrayList<>();
+		for (String string : reciverr) {
 			reciverr.add(string);
 		}
 		MessageEntity m = new MessageEntity(sender, reciverr, name, msg, time);
@@ -269,10 +271,12 @@ public class UserServices {
 		object.put("Status", "OK");
 		return object.toString();
 	}
+
 	@POST
 	@Path("/getNotification")
 	public String getNotification(@FormParam("user") String user,
-			@FormParam("pass") String pass) {
+
+	@FormParam("pass") String pass) {
 		if (UserEntity.isUser(user)) {
 			UserEntity userE = UserEntity.getUser(user, pass);
 			userE.getNotifications();
@@ -280,21 +284,54 @@ public class UserServices {
 			for (Notification not : userE.notifications) {
 				if (not instanceof MesNotification)
 					object.put(((MesNotification) not).getID(), "Msg");
-				else
-					if (not instanceof ReqNotification) {
-						//object.put(((ReqNotification) not).getID(), "Msg");
-					}
+				else if (not instanceof ReqNotification) {
+					// object.put(((ReqNotification) not).getID(), "Msg");
+				}
 			}
-			if(object.isEmpty())
-			{
-				object.put("Status","No Nofications");
+			if (object.isEmpty()) {
+				object.put("Status", "No Nofications");
 				return object.toString();
 			}
 			return object.toString();
 		} else {
 			JSONObject object = new JSONObject();
-			object.put("Status", "It'zs not a user");
+			object.put("Status", "It's not a user");
 			return object.toString();
 		}
 	}
+
+	/*
+	 * get user Time line service
+	 * 
+	 * @author Anas
+	 * 
+	 * @param user
+	 */
+	@POST
+	@Path("/getUserTimeLine")
+	public String getUserTimeLine(@FormParam("user") String user,
+			@FormParam("pass") String pass) {
+		if (UserEntity.isUser(user)) {
+			UserEntity userE = UserEntity.getUser(user, pass);
+			UserTimeLine userTimeLine = new UserTimeLine(user);
+			ArrayList<Post> posts=userTimeLine.get();
+			JSONObject object = new JSONObject();
+			for (Post post : posts) {
+				object.put("owner", post.owner);
+				object.put("link", post.link);
+				object.put("likers", post.likers.toString());
+				object.put("content", post.content);
+				object.put("sharenum", post.sharNum);
+				object.put("ID", post.ID);
+				object.put("privacy", post.privacy.toString());
+			}
+			return object.toString();
+		} else {
+			JSONObject object = new JSONObject();
+			object.put("Status", "It's not a user");
+			return object.toString();
+		}
+	}
+    
+	
 }

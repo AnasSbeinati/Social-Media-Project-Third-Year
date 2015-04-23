@@ -1,5 +1,7 @@
 package com.FCI.SWE.ServicesModels;
 
+import java.util.ArrayList;
+
 /**
  * <h1>Home class</h1>
  * <p>
@@ -11,7 +13,8 @@ package com.FCI.SWE.ServicesModels;
  * @since 2014-04-22
  */
 public class Home extends TimeLine {
-	void get() {
+	public ArrayList<Post> get() {
+		return null;
 
 	}
 }

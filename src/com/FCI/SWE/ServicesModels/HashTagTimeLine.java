@@ -1,5 +1,7 @@
 package com.FCI.SWE.ServicesModels;
 
+import java.util.ArrayList;
+
 /**
  * <h1>HashTagTimeLine class</h1>
  * <p>
@@ -23,7 +25,8 @@ public class HashTagTimeLine extends TimeLine implements HashTagObserver {
 
 	}
 
-	public void get() {
+	public ArrayList<Post> get() {
+		return null;
 
 	}
 }

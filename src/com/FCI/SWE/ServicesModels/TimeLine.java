@@ -1,5 +1,7 @@
 package com.FCI.SWE.ServicesModels;
 
+import java.util.ArrayList;
+
 /**
  * <h1>TimeLineabstract</h1>
  * <p>
@@ -11,7 +13,9 @@ package com.FCI.SWE.ServicesModels;
  * @since 2014-04-22
  */
 public abstract class TimeLine {
-	//public ArrayList<Post>=new ArrayList<>();
-	//ArrayList<HashTag>hashTagsTrends;
-	//void ArrayList<Post>get();
+	public ArrayList<Post>posts=new ArrayList<>();
+	public ArrayList<HashTagTimeLine>hashTagsTrends;
+	public ArrayList<Post>get() {
+		return null;
+	}
 }
