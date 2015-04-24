@@ -11,6 +11,13 @@ public class publik extends Privacy {
 		canSee.add("public");
 		return canSee;
 		
-	} 
+	}
+
+	@Override
+	public void SetCanSee(ArrayList<String> canSee) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -31,7 +31,6 @@ public class UserTimeLine extends TimeLine {
 		Query gaeQuery = new Query("Posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
-		int count = 0;
 		for (Entity entity : list) {
 			if (entity.getProperty("owner").equals(owner)) {
 				TimelinePost post = new TimelinePost();

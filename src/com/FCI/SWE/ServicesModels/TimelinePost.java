@@ -19,7 +19,7 @@ public class TimelinePost extends Post {
 				new TimelinePost());
 	}
 
-	@Override
+	
 	public Privacy setprivacy(String pID ) {
 		Privacy sample = privacy.get(pID);
 		if (sample == null) {
@@ -30,7 +30,7 @@ public class TimelinePost extends Post {
 		return sample;
 	}
 
-	@Override
+	
 	public void CreatePost(String link, String owner, String content,
 			String feeling, long sharedpostId , String privacy) {
 		setLink(link);
@@ -90,6 +90,29 @@ public class TimelinePost extends Post {
 	public Post Create() {
 		// TODO Auto-generated method stub
 		return new TimelinePost();
+	}
+
+
+	@Override
+	public Privacy setprivacy(String pID, ArrayList<String> CanSee, String type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void CreatePost(String link, String owner, String content,
+			String feeling, long sharedpostId, String privacy,
+			ArrayList<String> CanSee, String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public long GetOriginalPostID(Long sharedpostId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

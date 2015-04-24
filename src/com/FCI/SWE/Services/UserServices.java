@@ -32,7 +32,10 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 //import com.google.appengine.repackaged.com.google.common.base.Receiver;
 import com.sun.org.apache.bcel.internal.generic.ISUB;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 import com.FCI.SWE.Models.User;
+import com.FCI.SWE.ServicesModels.HashTagTimeLine;
+import com.FCI.SWE.ServicesModels.Home;
 import com.FCI.SWE.ServicesModels.MesNotification;
 import com.FCI.SWE.ServicesModels.MessageEntity;
 import com.FCI.SWE.ServicesModels.Notification;
@@ -68,8 +71,6 @@ public class UserServices {
 	 * 
 	 * @Path("/SearchService") public String searchFriend(@FormParam("uname")
 	 * String uname){
-	 * 
-	 * }
 	 */
 
 	/**
@@ -260,13 +261,8 @@ public class UserServices {
 			@FormParam("Receiver") String reciver,
 			@FormParam("Name") String name, @FormParam("Msg") String msg,
 			@FormParam("Time") Date time) {
-
-		String[] rec = reciver.trim().split(" ");
-		ArrayList<String> reciverr = new ArrayList<>();
-		for (String string : reciverr) {
-			reciverr.add(string);
-		}
-		MessageEntity m = new MessageEntity(sender, reciverr, name, msg, time);
+		String Receiver[] = reciver.split(",");
+		MessageEntity m = new MessageEntity(sender, Receiver, name, msg, time);
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");
 		return object.toString();
@@ -314,7 +310,7 @@ public class UserServices {
 		if (UserEntity.isUser(user)) {
 			UserEntity userE = UserEntity.getUser(user, pass);
 			UserTimeLine userTimeLine = new UserTimeLine(user);
-			ArrayList<Post> posts=userTimeLine.get();
+			ArrayList<Post> posts = userTimeLine.get();
 			JSONObject object = new JSONObject();
 			for (Post post : posts) {
 				object.put("owner", post.owner);
@@ -332,6 +328,62 @@ public class UserServices {
 			return object.toString();
 		}
 	}
-    
-	
+
+	/*
+	 * get Hash Time line service
+	 * 
+	 * @author Anas
+	 * 
+	 * @param user 20-4-2015
+	 */
+	@POST
+	@Path("/getHashTag")
+	public String getHashTag(@FormParam("hashName") String name) {
+		HashTagTimeLine hashTag = new HashTagTimeLine();
+		ArrayList<Post> posts = hashTag.get();
+		JSONObject object = new JSONObject();
+		for (Post post : posts) {
+			object.put("owner", post.owner);
+			object.put("link", post.link);
+			object.put("likers", post.likers.toString());
+			object.put("content", post.content);
+			object.put("sharenum", post.sharNum);
+			object.put("ID", post.ID);
+			object.put("privacy", post.privacy.toString());
+		}
+		return object.toString();
+	}
+
+	/*
+	 * get user Home service
+	 * 
+	 * @author Anas
+	 * 
+	 * @param user 20-4-2015
+	 */
+	@POST
+	@Path("/getHome")
+	public String getHome(@FormParam("user") String name) {
+		if (UserEntity.isUser(name)) {
+			Home home = new Home(name);
+			ArrayList<Post> posts = home.get();
+			JSONObject object = new JSONObject();
+			for (Post post : posts) {
+				object.put("owner", post.owner);
+				object.put("link", post.link);
+				object.put("likers", post.likers.toString());
+				object.put("content", post.content);
+				object.put("sharenum", post.sharNum);
+				object.put("ID", post.ID);
+				object.put("privacy", post.privacy.toString());
+			}
+			return object.toString();
+		}
+		else
+		{
+			JSONObject object = new JSONObject();
+			object.put("Status", "It's not a user");
+			return object.toString();
+		}
+	}
 }

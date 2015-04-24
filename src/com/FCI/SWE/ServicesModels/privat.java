@@ -23,4 +23,11 @@ public class privat extends Privacy {
 		return canSee;
 	}
 
+	@Override
+	public void SetCanSee(ArrayList<String> canSee) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

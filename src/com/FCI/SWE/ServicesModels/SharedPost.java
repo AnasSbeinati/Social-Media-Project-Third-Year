@@ -26,7 +26,7 @@ public class SharedPost extends Post {
 		this.sharedpostId = sharedpostId;
 	}
 
-	@Override
+	
 	public Privacy setprivacy(String pID ) {
 		Privacy sample = privacy.get(pID);
 		if (sample == null) {
@@ -38,7 +38,7 @@ public class SharedPost extends Post {
 	}
 
 
-	@Override
+
 	public void CreatePost(String link, String owner, String content,
 			String feeling, long sharedpostId, String privacy) {
 		setLink(link);
@@ -83,6 +83,26 @@ public class SharedPost extends Post {
 		
 		
 		return new SharedPost();
+	}
+
+	@Override
+	public Privacy setprivacy(String pID, ArrayList<String> CanSee, String type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void CreatePost(String link, String owner, String content,
+			String feeling, long sharedpostId, String privacy,
+			ArrayList<String> CanSee, String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long GetOriginalPostID(Long sharedpostId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

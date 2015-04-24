@@ -286,7 +286,7 @@ public class UserEntity {
 												.toString(), entity2
 												.getProperty("Msg").toString(),
 										null);
-								msg.setId(entity.getProperty("ID").toString());
+								msg.setId(Integer.parseInt(entity.getProperty("ID").toString()));
 								MesNotification not = new MesNotification(msg);
 								not.setID(entity.getProperty("ID").toString());
 								notifications.add(not);

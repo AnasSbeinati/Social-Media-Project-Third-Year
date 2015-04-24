@@ -18,41 +18,44 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 public class MessageEntity {
 	String sender;
 	HashMap<String, Integer> receiver = new HashMap<>();
-	String id;
+	int id;
 	String body;
 	String name;
 	Date time;
-	Notifier notifier;
-
+	
+	
+	
 	/**
 	 * 
-	 * constructor , this will be called to create message to one or more friend
+	 * constructor , this  will be called to create message to 
+	 * one or more friend
 	 * 
 	 * @author amal khaled
 	 * @param sender
-	 *            sender email
+	 *             sender email
 	 * @param receiver
-	 *            who will receive my msg
+	 *             who will receive my msg
 	 * @param name
-	 *            conversation name when chat contain more than one friend
+	 *             conversation name when chat contain more than one friend
 	 * @param msg
-	 *            message that i want to send
+	 *             message that i want to send
 	 * @param time
-	 *            time of sending the message
+	 *             time of sending the message            
 	 * @return string
 	 */
+	
+	
 
-	public MessageEntity(String sender, ArrayList<String> receiver,
+	public MessageEntity(String sender, String [] receiver,
 			String name, String msg, Date time) {
 		this.sender = sender;
-		for (int i = 0; i < receiver.size(); i++) {
-			this.receiver.put(receiver.get(i), 0);
+		for (int i = 0; i < receiver.length; i++) {
+			this.receiver.put(receiver[i], 0);
 		}
 		this.name = name;
 		// time = (Date) new java.util.Date();
 		this.body = msg;
-		notifier=new NotificationNotifier(new MesNotification(this));
-		notifier.update();
+
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("Message");
@@ -73,9 +76,20 @@ public class MessageEntity {
 		Mesg.setProperty("Name", this.name);
 		Mesg.setProperty("Time", this.time);
 		datastore.put(Mesg);
+
 	}
 
-	public void setId(String id) {
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
 		this.id = id;
 	}
+	
+
 }
