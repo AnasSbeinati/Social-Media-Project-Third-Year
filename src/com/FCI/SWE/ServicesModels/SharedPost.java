@@ -105,6 +105,12 @@ public class SharedPost extends Post {
 		return 0;
 	}
 
+	@Override
+	public void setHashTagID(String hashTagID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

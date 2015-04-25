@@ -141,4 +141,10 @@ public class TimelineSharedPost extends Post {
 
 	}
 
+	@Override
+	public void setHashTagID(String hashTagID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

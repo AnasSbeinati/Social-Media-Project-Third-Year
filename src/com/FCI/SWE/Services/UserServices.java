@@ -315,7 +315,7 @@ public class UserServices {
 			for (Post post : posts) {
 				object.put("owner", post.owner);
 				object.put("link", post.link);
-				object.put("likers", post.likers.toString());
+				object.put("likers", post.likers);
 				object.put("content", post.content);
 				object.put("sharenum", post.sharNum);
 				object.put("ID", post.ID);
@@ -357,7 +357,7 @@ public class UserServices {
 	/*
 	 * get user Home service
 	 * 
-	 * @author Anas
+	 * @author Anal
 	 * 
 	 * @param user 20-4-2015
 	 */
@@ -371,16 +371,17 @@ public class UserServices {
 			for (Post post : posts) {
 				object.put("owner", post.owner);
 				object.put("link", post.link);
-				object.put("likers", post.likers.toString());
+				if (post.likers != null)
+					object.put("likers", post.likers.toString());
+				else
+					object.put("likers", "0");
 				object.put("content", post.content);
 				object.put("sharenum", post.sharNum);
 				object.put("ID", post.ID);
 				object.put("privacy", post.privacy.toString());
 			}
 			return object.toString();
-		}
-		else
-		{
+		} else {
 			JSONObject object = new JSONObject();
 			object.put("Status", "It's not a user");
 			return object.toString();

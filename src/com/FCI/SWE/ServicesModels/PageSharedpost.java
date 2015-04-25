@@ -154,5 +154,11 @@ public class PageSharedpost extends Post {
 		return new PageSharedpost();
 	}
 
+	@Override
+	public void setHashTagID(String hashTagID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

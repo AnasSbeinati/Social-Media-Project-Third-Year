@@ -38,12 +38,11 @@ public class UserTimeLine extends TimeLine {
 				// post.setID(iD);
 				post.setLink(entity.getProperty("link").toString());
 				post.setOwner(owner);
-				post.setprivacy(entity.getProperty("privacy").toString());
-				String temp[] = entity.getProperty("like").toString()
-						.split(" ");
-				for (String string : temp) {
-					post.likers.add(string);
-				}
+				if (entity.getProperty("privacy")!=null)
+					post.setprivacy(entity.getProperty("privacy").toString());
+				else
+					post.setprivacy("public");
+				post.likers = (ArrayList<String>) entity.getProperty("like");
 				post.sharNum = Integer.parseInt(entity.getProperty("sheredNum")
 						.toString());
 				posts.add(post);

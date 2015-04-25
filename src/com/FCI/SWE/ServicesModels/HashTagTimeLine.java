@@ -53,11 +53,10 @@ public class HashTagTimeLine extends TimeLine implements HashTagObserver {
 						post.setOwner(entity2.getProperty("owner").toString());
 						post.setprivacy(entity2.getProperty("privacy")
 								.toString());
-						String temp[] = entity2.getProperty("like").toString()
-								.split(" ");
-						for (String string : temp) {
-							post.likers.add(string);
-						}
+						if (entity.getProperty("privacy")!=null)
+							post.setprivacy(entity.getProperty("privacy").toString());
+						else
+							post.setprivacy("public");
 						post.sharNum = Integer.parseInt(entity2.getProperty(
 								"sheredNum").toString());
 						posts.add(post);
@@ -76,10 +75,11 @@ public class HashTagTimeLine extends TimeLine implements HashTagObserver {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 		try {
-			Entity hashTagE = new Entity("HashTag", list.size() + 1);
+			Entity hashTagE = new Entity("HashTag", list.size() + 2);
 			hashTagE.setProperty("name",hashTag);
 			datastore.put(hashTagE);
-			post.setHashTagID(list.size() + 1);
+			String temp=Integer.toString(list.size() + 2);
+			post.setHashTagID(temp);
 		} catch (Exception e) {
 			// TODO: handle exception
 		} 

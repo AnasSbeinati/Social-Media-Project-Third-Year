@@ -19,8 +19,7 @@ public class TimelinePost extends Post {
 				new TimelinePost());
 	}
 
-	
-	public Privacy setprivacy(String pID ) {
+	public Privacy setprivacy(String pID) {
 		Privacy sample = privacy.get(pID);
 		if (sample == null) {
 
@@ -30,9 +29,9 @@ public class TimelinePost extends Post {
 		return sample;
 	}
 
-	
+	@Override
 	public void CreatePost(String link, String owner, String content,
-			String feeling, long sharedpostId , String privacy) {
+			String feeling, long sharedpostId, String privacy,ArrayList<String> CanSee, String type) {
 		setLink(link);
 		setOwner(owner);
 		setContent(content);
@@ -40,6 +39,7 @@ public class TimelinePost extends Post {
 		sharNum = 0;
 		setFeeling(feeling);
 		setprivacy(privacy);
+		System.out.println("Hello");
 		save();
 
 	}
@@ -47,7 +47,7 @@ public class TimelinePost extends Post {
 	public void setFeeling(String feeling) {
 		this.feeling = feeling;
 	}
-
+	
 	@Override
 	public void save() {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -66,7 +66,6 @@ public class TimelinePost extends Post {
 		post.setProperty("felling", feeling);
 		post.setProperty("privacy", CanSee);
 		datastore.put(post);
-
 	}
 
 	@Override
@@ -92,7 +91,6 @@ public class TimelinePost extends Post {
 		return new TimelinePost();
 	}
 
-
 	@Override
 	public Privacy setprivacy(String pID, ArrayList<String> CanSee, String type) {
 		// TODO Auto-generated method stub
@@ -100,19 +98,17 @@ public class TimelinePost extends Post {
 	}
 
 
-	@Override
-	public void CreatePost(String link, String owner, String content,
-			String feeling, long sharedpostId, String privacy,
-			ArrayList<String> CanSee, String type) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public long GetOriginalPostID(Long sharedpostId) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void setHashTagID(String hashTagID) {
+		
+		
 	}
 
 }

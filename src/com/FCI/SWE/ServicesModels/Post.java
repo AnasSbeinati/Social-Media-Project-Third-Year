@@ -22,7 +22,7 @@ public abstract class Post {
 	public String content;
 	public int sharNum;
 	public ArrayList<String> CanSee;
-	public ArrayList<HashTagObserver> hashs;
+	public ArrayList<String> hashs;
 	public long ID;
 	public HashMap<String, Privacy> privacy = new HashMap<>();
 
@@ -49,13 +49,13 @@ public abstract class Post {
 		ID = iD;
 	}
 
-	public void Attach(HashTagObserver hash) {
-		hashs.add(hash);
-	}
+	//public void Attach(HashTagObserver hash) {
+		//hashs.add(hash);
+	//}
 
 	public void notifyAllhash() {
 		for (int i = 0; i < hashs.size(); i++) {
-			//hashs.get(i).update();
+			new HashTagTimeLine().update(this,hashs.get(i));
 		}
 	}
 
@@ -119,8 +119,6 @@ public abstract class Post {
 
 	public abstract void setPostID(long postID);
 	
-	public void setHashTagID(int hashTagID){
-		
-	}
+	public abstract void setHashTagID(String hashTagID);
 
 }
