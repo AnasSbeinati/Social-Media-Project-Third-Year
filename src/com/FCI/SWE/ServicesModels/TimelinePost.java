@@ -40,6 +40,8 @@ public class TimelinePost extends Post {
 		setFeeling(feeling);
 		setprivacy(privacy);
 		System.out.println("Hello");
+		getHash(content);
+		notifyAllhash();
 		save();
 
 	}

@@ -41,6 +41,8 @@ public class PagePost extends Post {
 		sharNum = 0;
 		seen = new ArrayList<>();
 		setprivacy(privacy);
+		getHash(content);
+		notifyAllhash();
 		save();
 	}
 

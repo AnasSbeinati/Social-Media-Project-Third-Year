@@ -51,7 +51,7 @@ public class custom extends Privacy {
 								"owner").toString());
 						if (entity.getProperty("Type").equals("Timeline")) {
 							//oldCanSee = user.GetFriends(entity.getProperty(
-									//"owner").toString());
+								//	"owner").toString());
 						}
 					} else if (oldCanSee.contains("Public")) {
 						nowCanSee = this.canSee;

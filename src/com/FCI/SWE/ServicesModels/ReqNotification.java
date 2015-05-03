@@ -15,4 +15,9 @@ public class ReqNotification implements Notification {
 		// TODO Auto-generated method stub
 
 	}
+
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

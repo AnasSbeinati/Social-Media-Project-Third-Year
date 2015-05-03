@@ -281,7 +281,7 @@ public class UserServices {
 				if (not instanceof MesNotification)
 					object.put(((MesNotification) not).getID(), "Msg");
 				else if (not instanceof ReqNotification) {
-					// object.put(((ReqNotification) not).getID(), "Msg");
+					object.put(((ReqNotification) not).getID(), "Req");
 				}
 			}
 			if (object.isEmpty()) {

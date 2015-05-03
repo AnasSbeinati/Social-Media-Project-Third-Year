@@ -28,17 +28,36 @@ public class Home extends TimeLine {
 		this.owner = owner;
 	}
 
+	public ArrayList<String> showall(String Rec) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("friends");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		ArrayList senders = new ArrayList<>();
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("reciever").toString().equals(Rec)
+					&& entity.getProperty("friend").toString().equals("1")) {
+
+				senders.add(entity.getProperty("sender").toString());
+			}
+		}
+		return senders;
+	}
+
 	public ArrayList<Post> get() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("Posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+		UserEntity user = new UserEntity(owner);
+		ArrayList<String> friends = showall(owner);
 		for (Entity entity : list) {
 			if (entity.getProperty("owner").equals(owner)) {
 				TimelinePost post = new TimelinePost();
 				post.setContent(entity.getProperty("content").toString());
-				// post.setID(iD);
+				post.setID(entity.getKey().getId());
 				post.setLink(entity.getProperty("link").toString());
 				post.setOwner(owner);
 				if (entity.getProperty("privacy") != null)
@@ -49,6 +68,26 @@ public class Home extends TimeLine {
 				post.sharNum = Integer.parseInt(entity.getProperty("sheredNum")
 						.toString());
 				posts.add(post);
+			}
+			for (String string : friends) {
+
+				if (entity.getProperty("owner").equals(string)) {
+					TimelinePost post = new TimelinePost();
+					post.setContent(entity.getProperty("content").toString());
+					post.setID(entity.getKey().getId());
+					post.setLink(entity.getProperty("link").toString());
+					post.setOwner(owner);
+					if (entity.getProperty("privacy") != null)
+						post.setprivacy(entity.getProperty("privacy")
+								.toString());
+					else
+						post.setprivacy("public");
+					post.likers = (ArrayList<String>) entity
+							.getProperty("like");
+					post.sharNum = Integer.parseInt(entity.getProperty(
+							"sheredNum").toString());
+					posts.add(post);
+				}
 			}
 		}
 		return posts;

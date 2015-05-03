@@ -54,8 +54,10 @@ public class TimelineSharedPost extends Post {
 		setFeeling(feeling);
 		setPostID(sharedpostId);
 		setprivacy(privacy , CanSee , type);
-		save();
+		getHash(content);
+		notifyAllhash();
 		ChangeSharedNum(sharedpostId);
+		save();
 	}
 	public void setFeeling(String feeling) {
 		this.feeling = feeling;

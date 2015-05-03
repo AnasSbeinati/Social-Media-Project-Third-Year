@@ -56,8 +56,11 @@ public class PageSharedpost extends Post {
 		seen.add("0");
 		setPostID(sharedpostId);
 		setprivacy(privacy , CanSee , type);
-		save();
+		getHash(content);
+		notifyAllhash();
 		ChangeSharedNum(sharedpostId);
+		save();
+		
 	}
 
 	@Override

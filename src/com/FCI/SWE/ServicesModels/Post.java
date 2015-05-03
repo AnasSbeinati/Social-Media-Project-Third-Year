@@ -48,15 +48,20 @@ public abstract class Post {
 	public void setID(long iD) {
 		ID = iD;
 	}
+	public void getHash(String content){
+		String []contents = content.split(" ");
+		for (int i = 0 ; i< contents.length ; i++)
+			if (contents[i].contains("#")){
+				Attach(contents[i]);
+			}	
+	}
 
-	//public void Attach(HashTagObserver hash) {
-		//hashs.add(hash);
-	//}
+	public void Attach(String hash) {
+		hashs.add(hash);
+	}
 
 	public void notifyAllhash() {
-		for (int i = 0; i < hashs.size(); i++) {
-			new HashTagTimeLine().update(this,hashs.get(i));
-		}
+			new HashTagTimeLine().update(this,hashs);
 	}
 
 	public abstract Post Create();
