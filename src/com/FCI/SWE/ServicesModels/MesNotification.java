@@ -44,9 +44,9 @@ public class MesNotification implements Notification {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 		Entity not = new Entity("Notifications", list.size() + 1);
-		not.setProperty("Sender","Msg");
+		not.setProperty("Sender",msg.sender);
 		not.setProperty("Type","Msg");
-		not.setProperty("ID",msg.id);
+		not.setProperty("ID",msg.getId());
 		not.setProperty("Seen","0");
 		datastore.put(not);
 	}

@@ -263,6 +263,7 @@ public class UserServices {
 			@FormParam("Time") Date time) {
 		String Receiver[] = reciver.split(",");
 		MessageEntity m = new MessageEntity(sender, Receiver, name, msg, time);
+		m.notifyNot();
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");
 		return object.toString();
@@ -311,8 +312,9 @@ public class UserServices {
 			UserEntity userE = UserEntity.getUser(user, pass);
 			UserTimeLine userTimeLine = new UserTimeLine(user);
 			ArrayList<Post> posts = userTimeLine.get();
-			JSONObject object = new JSONObject();
+			String objects="";
 			for (Post post : posts) {
+				JSONObject object = new JSONObject();
 				object.put("owner", post.owner);
 				object.put("link", post.link);
 				object.put("likers", post.likers);
@@ -320,8 +322,9 @@ public class UserServices {
 				object.put("sharenum", post.sharNum);
 				object.put("ID", post.ID);
 				object.put("privacy", post.privacy.toString());
+				objects+=object.toString();
 			}
-			return object.toString();
+			return objects;
 		} else {
 			JSONObject object = new JSONObject();
 			object.put("Status", "It's not a user");
@@ -341,8 +344,9 @@ public class UserServices {
 	public String getHashTag(@FormParam("hashName") String name) {
 		HashTagTimeLine hashTag = new HashTagTimeLine();
 		ArrayList<Post> posts = hashTag.get();
-		JSONObject object = new JSONObject();
+		String objects="";
 		for (Post post : posts) {
+			JSONObject object = new JSONObject();
 			object.put("owner", post.owner);
 			object.put("link", post.link);
 			object.put("likers", post.likers.toString());
@@ -350,8 +354,9 @@ public class UserServices {
 			object.put("sharenum", post.sharNum);
 			object.put("ID", post.ID);
 			object.put("privacy", post.privacy.toString());
+			objects+=object.toString();
 		}
-		return object.toString();
+		return objects;
 	}
 
 	/*
@@ -367,8 +372,9 @@ public class UserServices {
 		if (UserEntity.isUser(name)) {
 			Home home = new Home(name);
 			ArrayList<Post> posts = home.get();
-			JSONObject object = new JSONObject();
+			String objects="";
 			for (Post post : posts) {
+				JSONObject object = new JSONObject();
 				object.put("owner", post.owner);
 				object.put("link", post.link);
 				if (post.likers != null)
@@ -379,8 +385,9 @@ public class UserServices {
 				object.put("sharenum", post.sharNum);
 				object.put("ID", post.ID);
 				object.put("privacy", post.privacy.toString());
+				objects+=object.toString();
 			}
-			return object.toString();
+			return objects;
 		} else {
 			JSONObject object = new JSONObject();
 			object.put("Status", "It's not a user");

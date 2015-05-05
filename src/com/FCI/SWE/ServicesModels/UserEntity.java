@@ -279,14 +279,14 @@ public class UserEntity {
 					if (entity.getProperty("Type").equals("Msg")) {
 						for (Entity entity2 : list1) {
 							if (entity.getProperty("ID").equals(
-									entity2.getProperty("ID"))) {
+									entity2.getKey())) {
 								MessageEntity msg = new MessageEntity(entity
 										.getProperty("Sender").toString(),
 										null, entity2.getProperty("name")
 												.toString(), entity2
 												.getProperty("Msg").toString(),
 										null);
-								msg.setId(Integer.parseInt(entity.getProperty("ID").toString()));
+								msg.setId(entity2.getKey());
 								MesNotification not = new MesNotification(msg);
 								not.setID(entity.getProperty("ID").toString());
 								notifications.add(not);

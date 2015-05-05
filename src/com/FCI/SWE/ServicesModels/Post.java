@@ -57,10 +57,14 @@ public abstract class Post {
 	}
 
 	public void Attach(String hash) {
+		if(hashs==null)
+			hashs=new ArrayList<>();
 		hashs.add(hash);
 	}
 
 	public void notifyAllhash() {
+		if(hashs==null)
+			hashs=new ArrayList<>();
 			new HashTagTimeLine().update(this,hashs);
 	}
 
