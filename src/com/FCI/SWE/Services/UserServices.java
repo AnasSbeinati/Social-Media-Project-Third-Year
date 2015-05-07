@@ -128,13 +128,17 @@ public class UserServices {
 
 	}
 
+
 	/**
 	 * 
 	 * AddFriend Rest Service, this service will be called to make add friend
 	 * 
 	 * @author amal khaled
-	 * @param email
+	 * @param Rec
 	 *            active user email
+	 * @param sender
+	 *            sender user email
+	 * 
 	 * @return string
 	 */
 	@POST
@@ -144,7 +148,7 @@ public class UserServices {
 		JSONObject obj = new JSONObject();
 		UserEntity user = new UserEntity(Rec);
 
-		if (user.ShowRequest(Rec, sender))
+		if (user.FindRequest(Rec, sender))
 			obj.put("Status", "OK");
 		else
 			obj.put("Status", "Failed");
@@ -200,45 +204,40 @@ public class UserServices {
 			return obj.toString();
 		}
 	}
+	/**
+	 * 
+	 * Show Rest Service, this service will be called to get all user requests
+	 * 
+	 * @author amal khaled
+	 * @param RecEamil
+	 *            active user email
+	 * @return string
+	 */
 
 	@POST
-	@Path("/DeletRequest")
-	public String DeletRequest(@FormParam("RecEamil") String Rec,
-			@FormParam("SenderEmail") String sender) {
-		JSONObject obj = new JSONObject();
-		UserEntity user = new UserEntity(Rec);
+	@Path("/ShowRequests")
+	public String ShowRequests(@FormParam("RecEamil") String Rec) {
 
-		if (user.deleteRequest(Rec, sender))
-			obj.put("Status", "OK");
-		else
-			obj.put("Status", "Failed");
-
-		return obj.toString();
-
-	}
-
-	@POST
-	@Path("/Show")
-	public String Show(@FormParam("RecEamil") String Rec) {
-		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		UserEntity user = new UserEntity(Rec);
 		ArrayList senders = new ArrayList<>();
 
-		senders = user.showall(Rec);
+		senders = user.showallRequests(Rec);
 
 		for (int i = 0; i < senders.size(); i++) {
+			JSONObject obj = new JSONObject();
 			obj.put("user", senders.get(i));
 			arr.add(obj);
 		}
 
-		return arr.toJSONString();
+		return arr.toString();
 
 	}
 
+
 	/**
 	 * 
-	 * sendmessage Rest Service, this service will be called to send message to
+	 * SendMessage Rest Service, this service will be called to send message to
 	 * onr or more friend
 	 * 
 	 * @author amal khaled
@@ -260,12 +259,15 @@ public class UserServices {
 	public String SendMessage(@FormParam("Sender") String sender,
 			@FormParam("Receiver") String reciver,
 			@FormParam("Name") String name, @FormParam("Msg") String msg,
-			@FormParam("Time") Date time) {
+			@FormParam("Time") String time) {
+
 		String Receiver[] = reciver.split(",");
 		MessageEntity m = new MessageEntity(sender, Receiver, name, msg, time);
-		m.notifyNot();
 		JSONObject object = new JSONObject();
-		object.put("Status", "OK");
+		if (m.Create())
+			object.put("Status", "OK");
+		else
+			object.put("Status", "false");
 		return object.toString();
 	}
 

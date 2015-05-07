@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Transaction;
  * This class will act as a model for user, it will holds user data
  * </p>
  *
- * @author Anas sbeinati
+ * @author mohamed samir
  * @version 1.0
  * @since 2014-02-12
  */
@@ -142,27 +142,18 @@ public class UserEntity {
 		return false;
 	}
 
-	public boolean deleteRequest(String Rec, String sender) {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
+	/**
+	 * 
+	 * 
+	 * This method will get all friend requests for current active user
+	 * 
+	 * @author amal khaled
+	 * @param Rec
+	 *            String represents active user email
+	 * @return boolean
+	 */
 
-		Query gaeQuery = new Query("friends");
-		PreparedQuery pq = datastore.prepare(gaeQuery);
-		for (Entity entity : pq.asIterable()) {
-			if (entity.getProperty("reciever").toString().equals(Rec)
-					&& entity.getProperty("sender").toString().equals(sender)
-					&& entity.getProperty("friend").toString().equals("0")) {
-
-				Key UserKey = KeyFactory.createKey("reciver", Rec);
-				datastore.delete(UserKey);
-
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public ArrayList showall(String Rec) {
+	public ArrayList showallRequests(String Rec) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
@@ -177,6 +168,67 @@ public class UserEntity {
 			}
 		}
 		return senders;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * This method will get all friend for current active user
+	 * 
+	 * @author amal khaled
+	 * @param Rec
+	 *            String represents active user email
+	 * @return boolean
+	 */
+
+	public ArrayList showallfriends(String Rec) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("friends");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		ArrayList senders = new ArrayList<>();
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("reciever").toString().equals(Rec)
+					&& entity.getProperty("friend").toString().equals("1")) {
+
+				senders.add(entity.getProperty("sender").toString());
+			}
+		}
+		return senders;
+	}
+	/**
+	 * 
+	 * 
+	 * This method will check if there's request from specific friend and accept
+	 * him
+	 * 
+	 * @author amal khaled
+	 * @param Rec
+	 *            String represents active user email
+	 * @param sender
+	 *            String represents who send friend request
+	 * 
+	 * @return boolean
+	 */
+	public boolean FindRequest(String Rec, String sender) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("friends");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("reciever").toString().equals(Rec)
+
+			&& entity.getProperty("sender").toString().equals(sender)
+					&& entity.getProperty("friend").toString().equals("0")) {
+
+				entity.setProperty("friend", "1");
+				datastore.put(entity);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
