@@ -15,19 +15,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.cloud.sql.jdbc.internal.Observers;
 
-/**
- * <h1>post class</h1>
- * <p>
- * This class will act as a model for post, it will holds post data
- * </p>
- *
- * @author amal khaled
- * @version 1.c
- * @since 2015-4-25
- */
-
-
-
 public abstract class Post {
 	public String link;
 	public String owner;
@@ -37,43 +24,55 @@ public abstract class Post {
 	public ArrayList<String> CanSee;
 	public ArrayList<String> hashs;
 	public long ID;
-	public Privacy privacy;
+	public HashMap<String, Privacy> privacy = new HashMap<>();
+
+	public abstract Privacy setprivacy(String pID, ArrayList<String> CanSee,
+			String type);
 
 	public long getID() {
 		return ID;
 	}
 
-	public Privacy getprivacy() {
+	public Privacy getprivacy(String privacy) {
+		Privacy sample = this.privacy.get(privacy);
+		return sample;
 
-		return privacy;
+	}
 
+	public void registerprivacy() {
+		privacy.put("Privte", new privat());
+		privacy.put("Public", new publik());
+		privacy.put("Custom", new custom());
 	}
 
 	public void setID(long iD) {
 		ID = iD;
 	}
-
-	// public void Attach(HashTagObserver hash) {
-	// hashs.add(hash);
-	// }
-
-	public void notifyAllhash() {
-	//	for (int i = 0; i < hashs.size(); i++) {
-		//	new HashTagTimeLine().update(this, hashs.get(i));
-		//}
+	public void getHash(String content){
+		String []contents = content.split(" ");
+		for (int i = 0 ; i< contents.length ; i++)
+			if (contents[i].contains("#")){
+				Attach(contents[i]);
+			}	
 	}
 
-	/**
-	 * 
-	 * this method to like post
-	 * 
-	 * @author amal khaled
-	 * @param postID
-	 *            where the post will be
-	 * @param liker
-	 *            who likes post
-	 * @return boolen
-	 */
+	public void Attach(String hash) {
+		if(hashs==null)
+			hashs=new ArrayList<>();
+		hashs.add(hash);
+	}
+
+	public void notifyAllhash() {
+		if(hashs==null)
+			hashs=new ArrayList<>();
+			new HashTagTimeLine().update(this,hashs);
+	}
+
+	public abstract Post Create();
+
+	public abstract void CreatePost(String link, String owner, String content,
+			String feeling, long sharedpostId, String privacy,
+			ArrayList<String> CanSee, String type);
 
 	public boolean likePost(long postID, String Liker) {
 		// TODO Auto-generated method stub
@@ -107,6 +106,8 @@ public abstract class Post {
 
 	}
 
+	public abstract long GetOriginalPostID(Long sharedpostId);
+
 	public void setLink(String link) {
 		this.link = link;
 	}
@@ -119,14 +120,6 @@ public abstract class Post {
 		this.content = content;
 	}
 
-	public abstract void CreatePost(String link, String owner, String content,
-			String feeling, long sharedpostId, String privacy,
-			ArrayList<String> CanSee, String type)
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException;
-
-	public abstract long GetOriginalPostID(Long sharedpostId);
-
 	public abstract void save();
 
 	public abstract boolean setSeen(long postID, String user);
@@ -134,7 +127,7 @@ public abstract class Post {
 	public abstract long getPostID();
 
 	public abstract void setPostID(long postID);
-
+	
 	public abstract void setHashTagID(String hashTagID);
 
 }

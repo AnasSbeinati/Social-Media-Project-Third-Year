@@ -10,16 +10,24 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-public class TimelinePost extends Post {
+public class SharedPost extends Post {
 
-	String feeling;
+	long sharedpostId;
 
 	static {
-		postFactory.getInstance().registerProduct("Timeline",
-				new TimelinePost());
+		postFactory.getInstance().registerProduct("shared", new SharedPost());
 	}
 
-	public Privacy setprivacy(String pID) {
+	public long getPostID() {
+		return sharedpostId;
+	}
+
+	public void setPostID(long sharedpostId) {
+		this.sharedpostId = sharedpostId;
+	}
+
+	
+	public Privacy setprivacy(String pID ) {
 		Privacy sample = privacy.get(pID);
 		if (sample == null) {
 
@@ -29,27 +37,20 @@ public class TimelinePost extends Post {
 		return sample;
 	}
 
-	@Override
+
+
 	public void CreatePost(String link, String owner, String content,
-			String feeling, long sharedpostId, String privacy,ArrayList<String> CanSee, String type) {
+			String feeling, long sharedpostId, String privacy) {
 		setLink(link);
 		setOwner(owner);
 		setContent(content);
 		likers = new ArrayList<String>();
 		sharNum = 0;
-		setFeeling(feeling);
+		setPostID(sharedpostId);
 		setprivacy(privacy);
-		System.out.println("Hello");
-		getHash(content);
-		notifyAllhash();
 		save();
-
 	}
 
-	public void setFeeling(String feeling) {
-		this.feeling = feeling;
-	}
-	
 	@Override
 	public void save() {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -65,20 +66,9 @@ public class TimelinePost extends Post {
 		post.setProperty("like", likers);
 		post.setProperty("content", content);
 		post.setProperty("sheredNum", sharNum);
-		post.setProperty("felling", feeling);
+		post.setProperty("SharedPost", sharedpostId);
 		post.setProperty("privacy", CanSee);
 		datastore.put(post);
-	}
-
-	@Override
-	public long getPostID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setPostID(long postID) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -90,7 +80,9 @@ public class TimelinePost extends Post {
 
 	public Post Create() {
 		// TODO Auto-generated method stub
-		return new TimelinePost();
+		
+		
+		return new SharedPost();
 	}
 
 	@Override
@@ -99,7 +91,13 @@ public class TimelinePost extends Post {
 		return null;
 	}
 
-
+	@Override
+	public void CreatePost(String link, String owner, String content,
+			String feeling, long sharedpostId, String privacy,
+			ArrayList<String> CanSee, String type) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public long GetOriginalPostID(Long sharedpostId) {
@@ -109,8 +107,10 @@ public class TimelinePost extends Post {
 
 	@Override
 	public void setHashTagID(String hashTagID) {
-		
+		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

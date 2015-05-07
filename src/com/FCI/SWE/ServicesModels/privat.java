@@ -10,23 +10,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
-/**
- * <h1>private privacy class</h1>
- * <p>
- * This class will act as a model for private privacy, it will holds private privacy data
- * </p>
- *
- * @author amal khaled
- * @version 1.c
- * @since 2015-4-25
- */
+
 public class privat extends Privacy {
 
-	
-	/**
-	 * this method to set privacy
-	 * @return arraylist
-	 */
 	@Override
 	public ArrayList<String> set() {
 
